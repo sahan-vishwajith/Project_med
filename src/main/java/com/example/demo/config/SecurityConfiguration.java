@@ -48,15 +48,16 @@ public class SecurityConfiguration {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("https://anatomyul.netlify.app")); // ✅ Your real frontend domain
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); // ✅ Include OPTIONS
-        config.setAllowedHeaders(List.of("*")); // ✅ Accept all headers
-        config.setAllowCredentials(true); // ✅ Allow Authorization headers if needed
+        config.setAllowedOrigins(List.of("https://anatomyul.netlify.app")); // ✅ Exact origin — no "*"
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); // ✅ Must include OPTIONS
+        config.setAllowedHeaders(List.of("*")); // ✅ Accept common headers
+        config.setAllowCredentials(true); // ✅ Required if you're sending cookies or Authorization
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
         return source;
     }
+
 
 
 }
