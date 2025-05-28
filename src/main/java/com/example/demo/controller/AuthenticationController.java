@@ -1,11 +1,13 @@
 package com.example.demo.controller;
 
 
+import com.example.demo.dto.BatchAnswerRequest;
 import com.example.demo.dto.LoginUserDto;
 import com.example.demo.dto.RegisterUserDto;
 import com.example.demo.dto.VerifyUserDto;
 import com.example.demo.model.User;
 import com.example.demo.responses.LoginResponse;
+import com.example.demo.service.AnswerService;
 import com.example.demo.service.AuthenticationService;
 import com.example.demo.service.JwtService;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +20,16 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
 
-    public AuthenticationController(JwtService jwtService, AuthenticationService authenticationService) {
+    private AnswerService answerService;
+
+    public void AnswerController(AnswerService answerService) {
+        this.answerService = answerService;
+    }
+
+    public AuthenticationController(JwtService jwtService, AuthenticationService authenticationService, AnswerService answerService) {
         this.jwtService = jwtService;
         this.authenticationService = authenticationService;
+        this.answerService = answerService;
     }
 
     @PostMapping("/signup")
@@ -55,5 +64,12 @@ public class AuthenticationController {
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+
+    @PostMapping("/batch")
+    public ResponseEntity<String> submitAnswers(@RequestBody BatchAnswerRequest request) {
+        answerService.saveBatchAnswers(request);
+        return ResponseEntity.ok("Answers submitted successfully");
     }
 }
