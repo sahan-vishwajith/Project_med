@@ -10,9 +10,12 @@ import com.example.demo.responses.LoginResponse;
 import com.example.demo.service.AnswerService;
 import com.example.demo.service.AuthenticationService;
 import com.example.demo.service.JwtService;
+import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RequestMapping("/auth")
 @RestController
 public class AuthenticationController {
@@ -69,6 +72,7 @@ public class AuthenticationController {
 
     @PostMapping("/batch")
     public ResponseEntity<String> submitAnswers(@RequestBody BatchAnswerRequest request) {
+        log.info("Request arrived");
         answerService.saveBatchAnswers(request);
         return ResponseEntity.ok("Answers submitted successfully");
     }
