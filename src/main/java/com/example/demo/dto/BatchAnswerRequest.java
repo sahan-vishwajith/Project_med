@@ -5,10 +5,12 @@ import lombok.Setter;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
+
 @Getter
 @Setter
 public class BatchAnswerRequest {
-    private Long userId;
+    private UUID userId;
     private Long paperId;
     private List<SingleAnswerDTO> answers;
 
