@@ -79,9 +79,10 @@ public class AuthenticationController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<UserResponse> createUser(@RequestBody CreateUserRequest request) {
+    public ResponseEntity<String> createUser(@RequestBody CreateUserRequest request) {
         log.info("create request hit");
-        return ResponseEntity.ok(service.createUser(request.getUserId(),request.getUsername()));
+        service.createUser(request.getUserId(),request.getUsername());
+        return ResponseEntity.ok("done");
     }
 
 }
