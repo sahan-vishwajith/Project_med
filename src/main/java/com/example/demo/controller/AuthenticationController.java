@@ -1,16 +1,10 @@
 package com.example.demo.controller;
 
 
-import com.example.demo.dto.BatchAnswerRequest;
-import com.example.demo.dto.LoginUserDto;
-import com.example.demo.dto.RegisterUserDto;
-import com.example.demo.dto.VerifyUserDto;
+import com.example.demo.dto.*;
 import com.example.demo.model.User;
 import com.example.demo.responses.LoginResponse;
-import com.example.demo.service.AnswerService;
-import com.example.demo.service.AuthenticationService;
-import com.example.demo.service.JwtService;
-import lombok.extern.java.Log;
+import com.example.demo.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,14 +19,21 @@ public class AuthenticationController {
 
     private AnswerService answerService;
 
+    private StudentService service;
+
     public void AnswerController(AnswerService answerService) {
         this.answerService = answerService;
     }
 
-    public AuthenticationController(JwtService jwtService, AuthenticationService authenticationService, AnswerService answerService) {
+    public void UserController(StudentService service) {
+        this.service = service;
+    }
+
+    public AuthenticationController(JwtService jwtService, AuthenticationService authenticationService, AnswerService answerService, StudentService service) {
         this.jwtService = jwtService;
         this.authenticationService = authenticationService;
         this.answerService = answerService;
+        this.service = service;
     }
 
     @PostMapping("/signup")
@@ -76,4 +77,11 @@ public class AuthenticationController {
         answerService.saveBatchAnswers(request);
         return ResponseEntity.ok("Answers submitted successfully");
     }
+
+    @PostMapping("/create")
+    public ResponseEntity<UserResponse> createUser(@RequestBody CreateUserRequest request) {
+        log.info("create request hit");
+        return ResponseEntity.ok(service.createUser(request.getUserId(),request.getUsername()));
+    }
+
 }
