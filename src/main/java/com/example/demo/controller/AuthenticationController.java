@@ -21,6 +21,9 @@ public class AuthenticationController {
 
     private StudentService service;
 
+    private ConsentFormService consentService;
+
+
     public void AnswerController(AnswerService answerService) {
         this.answerService = answerService;
     }
@@ -29,11 +32,18 @@ public class AuthenticationController {
         this.service = service;
     }
 
-    public AuthenticationController(JwtService jwtService, AuthenticationService authenticationService, AnswerService answerService, StudentService service) {
+    public void ConsentFormController(ConsentFormService consentService) {
+        this.consentService = consentService;
+    }
+
+    public AuthenticationController(JwtService jwtService, AuthenticationService authenticationService,
+                                    AnswerService answerService, StudentService service
+                                    , ConsentFormService consentService) {
         this.jwtService = jwtService;
         this.authenticationService = authenticationService;
         this.answerService = answerService;
         this.service = service;
+        this.consentService = consentService;
     }
 
     @PostMapping("/signup")
@@ -83,6 +93,11 @@ public class AuthenticationController {
         log.info("create request hit");
         service.createUser(request.getUserId(),request.getUsername());
         return ResponseEntity.ok("done");
+    }
+    @PostMapping("/saveConsent")
+    public ResponseEntity<ConsentAllResponse> saveColumns(@RequestBody ConsentColumnsRequest request) {
+        ConsentAllResponse response = consentService.saveColumnsConsent(request);
+        return ResponseEntity.ok(response);
     }
 
 }
