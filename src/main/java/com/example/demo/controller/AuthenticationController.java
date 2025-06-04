@@ -17,31 +17,27 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
 
-    private AnswerService answerService;
+    private final AnswerService answerService;
 
-    private StudentService service;
+    private final StudentService service;
 
-    private ConsentFormService consentService;
+    private final ConsentFormService consentService;
+
+    private final PersonalDetailsService personalDetailsService;
 
 
-    public void AnswerController(AnswerService answerService) {
-        this.answerService = answerService;
-    }
-
-    public void UserController(StudentService service) {
-        this.service = service;
-    }
-
-    public void ConsentFormController(ConsentFormService consentService) {
-        this.consentService = consentService;
-    }
-
-    public AuthenticationController(JwtService jwtService, AuthenticationService authenticationService,
-                                    AnswerService answerService, StudentService service
-                                    , ConsentFormService consentService) {
+    public AuthenticationController(
+            JwtService jwtService,
+            AuthenticationService authenticationService,
+            AnswerService answerService,
+            StudentService service,
+            PersonalDetailsService personalDetailsService1,
+            ConsentFormService consentService
+    ) {
         this.jwtService = jwtService;
         this.authenticationService = authenticationService;
         this.answerService = answerService;
+        this.personalDetailsService = personalDetailsService1;
         this.service = service;
         this.consentService = consentService;
     }
@@ -97,6 +93,14 @@ public class AuthenticationController {
     @PostMapping("/saveConsent")
     public ResponseEntity<ConsentAllResponse> saveColumns(@RequestBody ConsentColumnsRequest request) {
         ConsentAllResponse response = consentService.saveColumnsConsent(request);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/personal")
+    public ResponseEntity<PersonalDetailsResponse> savePersonal(
+            @RequestBody PersonalDetailsRequest request
+    ) {
+        PersonalDetailsResponse response = personalDetailsService.saveColumnsConsent(request);
         return ResponseEntity.ok(response);
     }
 
