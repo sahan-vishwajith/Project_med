@@ -8,7 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Field;
+import java.util.Map;
 import java.util.stream.IntStream;
+
+import static java.util.Map.entry;
 
 @Service
 public class PaperAnswerService {
@@ -18,6 +21,41 @@ public class PaperAnswerService {
     public PaperAnswerService(PaperAnswerRepository repo) {
         this.repo = repo;
     }
+    private static final Map<Integer,String> ANSWER_KEY = Map.ofEntries(
+            entry(1,  "Frontal, Sphenoid, Ethmoid, Lacrimal, Zygomatic, Maxilla"),
+            entry(2,  "Lateral circumflex femoral artery only"),
+            entry(3,  "Right lung has 2 lobes; left lung has 3 lobes"),
+            entry(4,  ""),
+            entry(5,  ""),
+            entry(6,  ""),
+            entry(7,  ""),
+            entry(8,  ""),
+            entry(9,  ""),
+            entry(10, ""),
+            entry(11, ""),
+            entry(12, ""),
+            entry(13, ""),
+            entry(14, ""),
+            entry(15, ""),
+            entry(16, ""),
+            entry(17, ""),
+            entry(18, ""),
+            entry(19, ""),
+            entry(20, ""),
+            entry(21, ""),
+            entry(22, ""),
+            entry(23, ""),
+            entry(24, ""),
+            entry(25, ""),
+            entry(26, ""),
+            entry(27, ""),
+            entry(28, ""),
+            entry(29, ""),
+            entry(30, "Only pain and swelling")
+    );
+
+
+
 
     @Transactional
     public void saveBatchAnswers(BatchAnswerRequest req) {
@@ -45,6 +83,13 @@ public class PaperAnswerService {
                     // you might want to throw here instead
                     continue;
                 }
+                String student = dto.getAnswerText().trim();
+                String correct = ANSWER_KEY.get(q);
+                String status = "Incorrect";
+                if (correct != null && correct.equalsIgnoreCase(student)) {
+                    status = "Correct";
+                }
+
                 Field f = PaperAnswer.class.getDeclaredField("answer" + q);
                 f.setAccessible(true);
                 f.set(pa, dto.getAnswerText());
