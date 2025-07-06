@@ -17,29 +17,27 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
 
-    private final AnswerService answerService;
-
     private final StudentService service;
 
     private final ConsentFormService consentService;
 
     private final PersonalDetailsService personalDetailsService;
+    private final PaperAnswerService paperAnswerService;
 
 
     public AuthenticationController(
             JwtService jwtService,
             AuthenticationService authenticationService,
-            AnswerService answerService,
             StudentService service,
             PersonalDetailsService personalDetailsService1,
-            ConsentFormService consentService
-    ) {
+            ConsentFormService consentService,
+            PaperAnswerService paperAnswerService) {
         this.jwtService = jwtService;
         this.authenticationService = authenticationService;
-        this.answerService = answerService;
         this.personalDetailsService = personalDetailsService1;
         this.service = service;
         this.consentService = consentService;
+        this.paperAnswerService = paperAnswerService;
     }
 
     @PostMapping("/signup")
@@ -80,7 +78,7 @@ public class AuthenticationController {
     @PostMapping("/batch")
     public ResponseEntity<String> submitAnswers(@RequestBody BatchAnswerRequest request) {
         log.info("Request arrived");
-        answerService.saveBatchAnswers(request);
+        paperAnswerService.saveBatchAnswers(request);
         return ResponseEntity.ok("Answers submitted successfully");
     }
 
