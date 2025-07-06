@@ -92,7 +92,7 @@ public class PaperAnswerService {
 
                 Field f = PaperAnswer.class.getDeclaredField("answer" + q);
                 f.setAccessible(true);
-                f.set(pa, dto.getAnswerText());
+                f.set(pa, status);
             }
 
         } catch (NoSuchFieldException | IllegalAccessException e) {
