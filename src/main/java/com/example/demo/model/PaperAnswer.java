@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Entity
 @Table(
-        name = "paper_answers",
+        name = "paper_answers_t",
         uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "paper_id"})
 )
 @Getter

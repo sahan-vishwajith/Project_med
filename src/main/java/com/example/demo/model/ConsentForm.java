@@ -5,7 +5,7 @@ import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "consent_forms")
+@Table(name = "consent_forms_t")
 public class ConsentForm {
 
     @Id

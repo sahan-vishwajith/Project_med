@@ -8,7 +8,7 @@ import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "personal_Details")
+@Table(name = "personal_Details_t")
 @Setter
 @Getter
 public class PersonalDetails {
